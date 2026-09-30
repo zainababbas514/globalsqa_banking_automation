@@ -39,7 +39,7 @@ The framework uses Cucumber feature files for BDD scenarios, separate step defin
 * Add a new customer
 * Verify customer details
 * Search customers using different criteria
-* Delete a customer
+* Delete an existing customer
 * Open a new account
 * Verify the generated account number
 
@@ -57,6 +57,7 @@ The framework uses Cucumber feature files for BDD scenarios, separate step defin
 * Automatic screenshots on failure
 * Cypress video recording
 * Cucumber JSON and HTML reporting
+* npm scripts for common test execution and reporting tasks
 
 ## 📁 Project Structure
 
@@ -110,21 +111,31 @@ PracticeTestAutomation
 
 The project generates Cucumber JSON results and an HTML test report using `multiple-cucumber-html-reporter`.
 
-Reports are generated using:
+The Cucumber JSON output is generated at:
+
+```text
+cypress/reports/cucumber-report.json
+```
+
+The HTML report is generated using:
 
 ```text
 generate-report.mjs
 ```
 
-## 📝 Manual Test Cases
+Run the report generation command after executing the tests:
 
-Detailed manual test cases are maintained in the:
-
-```text
-testCases/
+```bash
+npm run report
 ```
 
-folder.
+## 📝 Manual Test Cases
+
+Detailed manual test cases are maintained in:
+
+```text
+testCases/GlobalSQA_Banking_Test_Cases.xlsx
+```
 
 The Excel test cases cover the customer and manager banking workflows automated in this project.
 
@@ -148,7 +159,16 @@ cd globalsqa_banking_automation
 npm install
 ```
 
-## ▶️ Running Tests
+## ▶️ NPM Scripts
+
+The project includes the following npm scripts for running Cypress tests and generating reports.
+
+| Command                           | Purpose                                                       |
+| --------------------------------- | ------------------------------------------------------------- |
+| `npm run cy:open`                 | Opens the Cypress Test Runner for interactive test execution. |
+| `npm run cy:run`                  | Runs all Cypress tests in headless mode.                      |
+| `npm run cy:run:spec -- "<path>"` | Runs a specific feature/spec file.                            |
+| `npm run report`                  | Generates the HTML Cucumber report from the test results.     |
 
 ### Open Cypress
 
@@ -156,10 +176,20 @@ npm install
 npm run cy:open
 ```
 
+This opens the Cypress Test Runner, where individual feature files can be selected and executed interactively.
+
 ### Run All Tests
 
 ```bash
 npm run cy:run
+```
+
+Runs all Cypress tests in headless mode.
+
+The following command does the same thing:
+
+```bash
+npm test
 ```
 
 ### Run a Specific Feature
@@ -177,8 +207,10 @@ npm run cy:run:spec -- "cypress/e2e/features/manager/manager-open-account.featur
 ### Generate HTML Report
 
 ```bash
-npm run generate-report.mjs
+npm run report
 ```
+
+This generates the HTML report using the Cucumber JSON results produced during test execution.
 
 ## 🌐 Application Under Test
 
