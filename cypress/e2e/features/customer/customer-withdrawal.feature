@@ -14,7 +14,7 @@ Feature: Customer Withdrawal
 
     Scenario: Withdraw money with insufficient balance
         When the user clicks on the "Withdrawl" tab
-        And the user enters 200000 as withdrawal amount
+        And the user enters 2000000 as withdrawal amount
         And the user clicks the Withdraw button
         Then a withdrawal error message should be displayed
         And the account balance should remain the same

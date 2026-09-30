@@ -96,14 +96,25 @@ class ManagerDashboard extends BasePage {
             .find("tbody tr");
     }
 
-    deleteCustomerByAccountNumber(accountNumber) {
-        this.elements.customersTable()
-            .find("tbody tr")
-            .contains("td", accountNumber)
-            .parents("tr")
-            .within(() => {
-                cy.contains("button", "Delete").click();
-            });
+    deleteCustomerByDetails(firstName, lastName, postCode) {
+
+        this.getCustomerRows().each(($row) => {
+
+            const rowText = $row.text();
+
+            if (
+                rowText.includes(firstName) &&
+                rowText.includes(lastName) &&
+                rowText.includes(postCode)
+            ) {
+                cy.wrap($row)
+                    .within(() => {
+                        cy.contains("button", "Delete").click();
+                    });
+
+                return false;
+            }
+        });
     }
 
 

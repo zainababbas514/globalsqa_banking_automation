@@ -22,9 +22,7 @@ export default defineConfig({
 
     video: true,
 
-    baseUrl:
-      "https://www.globalsqa.com/angularJs-protractor/BankingProject",
-
+    baseUrl: "https://www.globalsqa.com/angularJs-protractor/BankingProject",
     specPattern: "cypress/e2e/features/**/*.feature",
 
     setupNodeEvents,

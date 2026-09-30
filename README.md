@@ -99,4 +99,3 @@ PracticeTestAutomation
 ├─ package-lock.json
 └─ package.json
 
-```

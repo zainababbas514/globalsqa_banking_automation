@@ -6,7 +6,7 @@ Feature: Manager Customer Management
 
     Scenario Outline: Search for customers using different criteria
         When the user clicks the "Customers" button
-        And the user enters "<searchText>" in the search field 
+        And the user enters "<searchText>" in the search field
         Then matching customer records should be displayed for "<searchText>"
 
         Examples:
@@ -15,7 +15,10 @@ Feature: Manager Customer Management
             | E55555     |
             | 1006       |
 
-    Scenario: Delete a customer successfully
+    Scenario: Delete an existing customer successfully
+        Given the following customer exists in the system:
+            | First Name | Last Name | Post Code |
+            | Jason      | Peter     | E78H47    |
         When the user clicks the "Customers" button
-        And the user deletes the customer with account number "1005"
-        Then the customer with account number "1005" should be removed from the list
+        And the user deletes the customer "Jason Peter" with post code "E78H47"
+        Then the customer "Jason Peter" with post code "E78H47" should no longer be in the list

@@ -1,9 +1,33 @@
-import { When, Then } from "@badeball/cypress-cucumber-preprocessor";
+import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 
 import ManagerDashboard from "../../../pages/managerDashboard";
 
 const managerDashboard = new ManagerDashboard();
 
+Given("the following customer exists in the system:", (dataTable) => {
+    customerData = dataTable.hashes()[0];
+
+    managerDashboard.clickTab(
+        managerDashboard.elements.addCustomerTab
+    );
+
+    managerDashboard.enterField(
+        managerDashboard.elements.firstNameInput,
+        customerData["First Name"]
+    );
+
+    managerDashboard.enterField(
+        managerDashboard.elements.lastNameInput,
+        customerData["Last Name"]
+    );
+
+    managerDashboard.enterField(
+        managerDashboard.elements.postalCodeInput,
+        customerData["Post Code"]
+    );
+
+    managerDashboard.clickSubmitButton();
+});
 
 // Customer Search
 
@@ -28,12 +52,26 @@ Then("matching customer records should be displayed for {string}", (searchText) 
 
 // Customer Deletion
 
-When("the user deletes the customer with account number {string}", (accountNumber) => {
-    managerDashboard.deleteCustomerByAccountNumber(accountNumber);
+When('the user deletes the customer {string} with post code {string}', (customerName, postCode) => {
+    const [firstName, lastName] = customerName.split(" ");
+
+    managerDashboard.deleteCustomerByDetails(
+        firstName,
+        lastName,
+        postCode
+    );
 });
 
-
-Then("the customer with account number {string} should be removed from the list", (accountNumber) => {
+Then('the customer {string} with post code {string} should no longer be in the list', (customerName, postCode) => {
     managerDashboard.getCustomerRows()
-        .should("not.contain", accountNumber);
+        .filter((row) => {
+            const [firstName, lastName] = customerName.split(" ");
+            const rowText = Cypress.$(row).text();
+
+            return rowText.includes(firstName) &&
+                rowText.includes(lastName) &&
+                rowText.includes(postCode);
+        })
+        .should("not.exist");
+
 });
